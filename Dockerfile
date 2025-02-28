@@ -1,5 +1,5 @@
 # First stage: Build the application
-FROM eclipse-temurin:17-jdk AS builder
+FROM maven:3.8.6-eclipse-temurin-17 AS builder
 
 # Set working directory
 WORKDIR /app
