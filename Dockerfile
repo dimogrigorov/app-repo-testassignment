@@ -5,7 +5,14 @@ FROM maven:3.8.6-eclipse-temurin-17 AS builder
 WORKDIR /app
 
 # Copy Maven project files
-COPY pom.xml .
+COPY pom.xml . 
+
+# Auto-increment version using Maven versions plugin
+RUN mvn build-helper:parse-version versions:set \
+    -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion} \
+    -DgenerateBackupPoms=false
+
+# Copy application source code
 COPY src ./src
 
 # Build the application
@@ -18,7 +25,7 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # Copy the built JAR file from the builder stage
-COPY --from=builder /app/target/simpleapp-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 # Expose application port
 EXPOSE 8080

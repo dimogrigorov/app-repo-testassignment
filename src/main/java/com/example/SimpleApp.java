@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
 
 @SpringBootApplication
 public class SimpleApp {
@@ -14,11 +15,15 @@ public class SimpleApp {
 }
 
 @RestController
-@RequestMapping("/status")
-class StatusController {
+@RequestMapping("/application")
+class ApplicationController {
+
+    @Value("${app.version:unknown}")
+    private String appVersion;
+
     @GetMapping
-    public String getStatus() {
-        return "Application is running!";
+    public String getAppInfo() {
+        return "Application Version: " + appVersion;
     }
 }
 
