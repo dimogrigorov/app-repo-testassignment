@@ -21,11 +21,30 @@ This repository contains a simple Spring Boot application that serves an endpoin
 └── README.md  # Project documentation
 ```
 
+### `src/main/resources/application.properties`
+
+```
+server.port=8080
+
+# Use Maven property substitution for version
+app.version=@project.version@
+
+# Enable Spring Boot Actuator
+management.endpoints.web.exposure.include=health,info
+management.endpoint.health.show-details=always
+```
+
+Actuator exposes `/actuator/health`
+
 ## Application Endpoint
 The application exposes a REST endpoint:
 ```
 GET /application
 Response: "Application Version: <version>"
+```
+```
+GET /actuator/health
+Returns application health status.
 ```
 
 ## Build and Run Locally
